@@ -3,7 +3,7 @@ import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
 const client = new ApolloClient({
   	cache: new InMemoryCache(),
   	link: new HttpLink({
-		uri: 'http://thefallenstudio.dnset.com:4000/',
+		uri: 'https://thefallenstudio.dnset.com:4000/',
 	}),
 	onError: ({ networkError, graphQLErrors }) => {
 		console.log('graphQLErrors', graphQLErrors)
