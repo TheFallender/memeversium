@@ -1,0 +1,214 @@
+/*Basic*/
+.selectDisable {
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+.selectEnable { 
+    -webkit-user-select: text;
+    -khtml-user-select: text;
+    -moz-user-select: text;
+    -o-user-select: text;
+    user-select: text;
+}
+
+.noDec {
+    color: black;
+    text-decoration: none;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.PopUpBackground {
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9;
+}
+
+/*Header*/
+.Header {
+    width: 100%;
+    height: 8%;
+}
+
+.HeaderBack {
+    height: 100%;
+    width: 100%;
+    padding: 3px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid black;
+    box-sizing: border-box;
+    background-color: rgb(230, 230, 230);
+}
+
+.HeaderBanner {
+    height: 100%;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+}
+
+.HeaderLogo {
+    height: 100%;
+}
+
+.HeaderGithub {
+    position: relative;
+    right: 0%;
+}
+
+.HeaderLogin {
+    position: absolute;
+    width: 30%;
+    left: 50%;
+    top: 1.5%;
+    margin-left: -15%;
+    text-align: center;
+}
+
+.HeaderLoginOptions {
+    display: flex;
+    justify-content: center;
+}
+
+.HeaderLoginOption {
+    margin: 0px 5px;
+}
+
+
+/*Login*/
+
+.Login {
+    position: fixed;
+    width: 300px;
+    height: fit-content;
+    top: 30%;
+    left: 50%;
+    margin-top: -60px;
+    margin-left: -150px;
+    border: 3px solid black;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: rgb(241, 241, 241);
+    z-index: 10;
+}
+
+.LoginForm {
+    padding-top: 10px;
+}
+
+.LoginClose {
+    position: absolute;
+    right: 5%;
+    top: 5%
+}
+
+.LoginContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.LoginInput {
+    position: relative;
+    right: 0%;
+}
+
+.LoginButton {
+    position: relative;
+    left: 40%;
+    margin-top: 10px;
+}
+
+/*MEME LIST*/
+.MemeList {
+    width: 33%;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.MemeListTypes {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.MemeListType {
+    width: 33%;
+    text-align: center;
+    border: 1px solid black;
+    background-color: rgb(219, 219, 219);
+}
+
+.MemeListSelected {
+    background-color: rgb(197, 255, 197);
+}
+
+.MemeListData {
+    padding: 5px 40px;
+}
+
+/*MEMES*/
+.Meme {
+    width: 100%;
+    position: relative;
+    box-sizing: border-box;
+    margin: 20px auto;
+    padding-top: 10px;
+    border: 4px solid black;
+    background-color: rgb(158, 158, 158);
+}
+
+.MemeInfo {
+    margin-top: 20px;
+    height: 25px;
+}
+
+.MemeImg {
+    width: 100%;
+    background-color: black;
+    border: 4px solid black;
+    box-sizing: border-box;
+}
+
+.MemeIcons {
+    position: absolute;
+    top: 1%;
+    left: 0%;
+}
+
+.MemeAdminIcon {
+    padding-left: 10px;
+    height: 20px;
+    filter: grayscale(0%);
+}
+
+.MemeAdminUser {
+    position: absolute;
+    right: 2%;
+}
+
+.MemeBestOff {
+    filter: grayscale(100%);
+}
+
+/*User*/
+.User {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-bottom: 1px solid black;
+    box-sizing: border-box;
+}
