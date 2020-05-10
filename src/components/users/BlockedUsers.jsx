@@ -34,14 +34,26 @@ const BlockedUsers = props => {
 
 
     //Queries
-    const blockedUsers = useLazyQuery(BLOCKED_USERS_QUERY,  {fetchPolicy: "network-only"});
+    const blockedUsers = useLazyQuery(BLOCKED_USERS_QUERY,  {fetchPolicy: "network-only", onCompleted: (data) => blockedUsersCheck(data.blockedUsers)});
 
 
     //Hooks
     const [users, setUsers] = useState(null);
     const [userToRemove, setUserToRemove] = useState(null);
 
-    
+
+    //Call on Start
+    useEffect(() => {
+        //Get the info from the cookies
+        const adminID = localStorage.getItem("userID");
+        const adminToken = localStorage.getItem("userToken");
+
+        //Query
+        blockedUsers[0]({variables: {adminID, adminToken}});
+        // eslint-disable-next-line
+    }, [])
+
+
     //Remove unblocked or removed user
     useEffect(() => {
         if (users)
@@ -50,31 +62,17 @@ const BlockedUsers = props => {
     }, [userToRemove]);
 
 
-    //Handler to call the Query
-    useEffect(() => {
-        //Get the info from the cookies
-        const adminID = localStorage.getItem("userID");
-        const adminToken = localStorage.getItem("userToken");
-
-        blockedUsers[0]({variables: {adminID, adminToken}});
-        // eslint-disable-next-line
-    }, [])
-
-
-    //Detect the change of the Login when is requested
-    useEffect(() => {
-        if (blockedUsers[1].data) {
-            if (blockedUsers[1].data.blockedUsers.msgInfo !== "SUCCESS")
-                alert(blockedUsers[1].data.blockedUsers.msgInfo);
-            else {
-                let usersJSX = blockedUsers[1].data.blockedUsers.user.map((element) => (
-                    <User key={element._id} data={element} remUser={setUserToRemove}/>
-                ))
-                setUsers(usersJSX);
-            }
+    //Query for the Blocked Users done
+    const blockedUsersCheck = (queryResult) => {
+        if(queryResult.msgInfo !== "SUCCESS")
+            alert(queryResult.msgInfo);
+        else {
+            let usersJSX = queryResult.user.map((element) => (
+                <User key={element._id} data={element} remUser={setUserToRemove}/>
+            ))
+            setUsers(usersJSX);
         }
-        // eslint-disable-next-line
-    }, [blockedUsers])
+    }
 
 
     //Return

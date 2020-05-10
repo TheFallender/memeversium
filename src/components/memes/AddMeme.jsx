@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {gql, useMutation} from '@apollo/client';
 
 //Style
@@ -24,7 +24,7 @@ const Register = props => {
 
 
     //Queries
-    const addMeme = useMutation(ADD_MEME);
+    const addMeme = useMutation(ADD_MEME, {onCompleted: (data) => memeAddCheck(data.addMeme)});
 
 
     //Hooks for managing the state of the typed text
@@ -69,19 +69,13 @@ const Register = props => {
 
     
     //Detect the change of the Register when is requested
-    useEffect(() => {
-        if (!addMeme[1].loading && addMeme[1].called) {
-            if (addMeme[1].data) {
-                if (addMeme[1].data.addMeme.msgInfo !== "SUCCESS")
-                    alert(addMeme[1].data.addMeme.msgInfo);
-                else {
-                    //Refresh window
-                    window.location.reload(false);
-                }
-            }
-        }
-        // eslint-disable-next-line
-    }, [addMeme])
+    const memeAddCheck = (queryResult) => {
+        if (queryResult.msgInfo !== "SUCCESS")
+            alert(queryResult.msgInfo);
+        //Refresh window
+        else
+            window.location.reload(false);
+    }
 
 
     //Return

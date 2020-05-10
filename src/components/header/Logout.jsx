@@ -20,6 +20,7 @@ const Login = props => {
     //Queries
     const logout = useLazyQuery(LOGOUT_QUERY);
 
+
     const logoutCall = () => {
         //Get userID and token for the query
         const userID = localStorage.getItem("userID");
@@ -39,6 +40,7 @@ const Login = props => {
         window.location.reload(false);
     }
 
+    
     //Return
     return (
         <button className="HeaderLoginOption clickable" onClick={() => logoutCall()}>Logout</button>
