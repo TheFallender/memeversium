@@ -68,13 +68,38 @@
     right: 0%;
 }
 
+/*Mobile view*/
 .HeaderLogin {
     position: absolute;
-    width: 30%;
+    width: 40%;
     left: 50%;
-    top: 1.5%;
-    margin-left: -15%;
+    top: 8.5%;
+    margin-left: -20%;
     text-align: center;
+}
+
+@media screen and (min-width: 650px) {
+    .HeaderLogin {
+        position: absolute;
+        width: 30%;
+        left: 66%;
+        top: 0.5%;
+        margin-left: -15%;
+        text-align: center;
+    }
+}
+
+
+/*PC View*/
+@media screen and (min-width: 960px) {
+    .HeaderLogin {
+        position: absolute;
+        width: 30%;
+        left: 50%;
+        top: 1.5%;
+        margin-left: -15%;
+        text-align: center;
+    }
 }
 
 .HeaderLoginOptions {
@@ -132,9 +157,61 @@
 
 /*MEME LIST*/
 .MemeList {
-    width: 33%;
+    width: 90%;
     margin: 0 auto;
+    margin-top: 25%;
     box-sizing: border-box;
+}
+
+
+@media screen and (min-width: 500px) {
+    .MemeList {
+        width: 90%;
+        margin: 0 auto;
+        margin-top: 20%;
+        box-sizing: border-box;
+    }
+}
+
+@media screen and (min-width: 550px) {
+    .MemeList {
+        width: 90%;
+        margin: 0 auto;
+        margin-top: 16%;
+        box-sizing: border-box;
+    }
+}
+
+@media screen and (min-width: 650px) {
+    .MemeList {
+        width: 70%;
+        margin: 0 auto;
+        box-sizing: border-box;
+    }
+}
+
+@media screen and (min-width: 800px) {
+    .MemeList {
+        width: 70%;
+        margin: 0 auto;
+        box-sizing: border-box;
+    }
+}
+
+@media screen and (min-width: 1600px) {
+    .MemeList {
+        width: 50%;
+        margin: 0 auto;
+        box-sizing: border-box;
+    }
+}
+
+@media screen and (min-width: 1920px) {
+    .MemeList {
+        width: 33%;
+        margin: 0 auto;
+        box-sizing: border-box;
+    }
 }
 
 .MemeListTypes {
