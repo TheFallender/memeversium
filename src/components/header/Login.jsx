@@ -5,10 +5,15 @@ import {gql, useLazyQuery} from '@apollo/client';
 import '../Style.css';
 
 
+//Require Bcrypt
+const bcrypt = require('bcryptjs');
+
+
+
 //Login query
 const LOGIN_QUERY = gql`
-	query UserLog($typedEmail: String!, $typedPwd: String!) {
-        userLogin(email: $typedEmail, password: $typedPwd) {
+	query UserLog($typedEmail: String!, $passwordSalted: String!) {
+        userLogin(email: $typedEmail, password: $passwordSalted) {
             msgInfo
             data
             user {
@@ -22,6 +27,16 @@ const LOGIN_QUERY = gql`
 `;
 
 
+//Salt query
+const SALT_QUERY = gql`
+	query GetSalt($typedEmail: String!) {
+        getSalt(email: $typedEmail) {
+            msgInfo
+            data
+        }
+    }
+`;
+
 //Login JSX
 const Login = props => {
     //Props
@@ -31,13 +46,14 @@ const Login = props => {
 
 
     //Queries
-    const login = useLazyQuery(LOGIN_QUERY);
+    const login = useLazyQuery(LOGIN_QUERY,  {fetchPolicy: "network-only", onCompleted: (data) => loginCheck(data.userLogin)});
+    const saltGet = useLazyQuery(SALT_QUERY,  {fetchPolicy: "network-only", onCompleted: (data) => sendLogin(data.getSalt)});
 
 
     //Hooks for managing the state of the typed text
     const [typedEmail, setTypedEmail] = useState("");
     const [typedPwd, setTypedPwd] = useState("");
-    
+
 
     //Handler to call the Query
     const submitHandler = (event) => {
@@ -56,32 +72,44 @@ const Login = props => {
             return false;
         }
 
-        //Lazy request the query
-        login[0]({variables: {typedEmail, typedPwd}});
+        //Lazy request the query for the salt
+        saltGet[0]({variables: {typedEmail}});
 
         //Prevent page change
         return false;
     }
 
 
-    //Detect the change of the Login when is requested
-    useEffect(() => {
-        if (login[1].data) {
-            if (login[1].data.userLogin.msgInfo !== "SUCCESS")
-                alert(login[1].data.userLogin.msgInfo);
-            else {
-                //Create cookies
-                localStorage.setItem("userID", login[1].data.userLogin.user[0]._id);
-                localStorage.setItem("userUsername", login[1].data.userLogin.user[0].user);
-                localStorage.setItem("userAdmin", login[1].data.userLogin.user[0].admin);
-                localStorage.setItem("userBlocked", login[1].data.userLogin.user[0].blocked);
-                localStorage.setItem("userToken", login[1].data.userLogin.data[0]);
-                
-                //Refresh window
-                window.location.reload(false);
-            }
+    //Send Login
+    const sendLogin = (queryResult) => {
+        if (queryResult.msgInfo !== "SUCCESS")
+            alert(queryResult.msgInfo);
+        else {
+            //Encrypt using the salt
+            const passwordSalted = bcrypt.hashSync(typedPwd, queryResult.data[0]);
+
+            //Lazy request the query
+            login[0]({variables: {typedEmail, passwordSalted}});
         }
-    }, [login])
+    }
+
+
+    //Check Login Result
+    const loginCheck = (queryResult) => {
+        if (queryResult.msgInfo !== "SUCCESS")
+            alert(queryResult.msgInfo);
+        else {
+            //Create cookies
+            localStorage.setItem("userID", queryResult.user[0]._id);
+            localStorage.setItem("userUsername", queryResult.user[0].user);
+            localStorage.setItem("userAdmin", queryResult.user[0].admin);
+            localStorage.setItem("userBlocked", queryResult.user[0].blocked);
+            localStorage.setItem("userToken", queryResult.data[0]);
+            
+            //Refresh window
+            window.location.reload(false);
+        }
+    }
 
 
     //Return

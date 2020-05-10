@@ -4,11 +4,13 @@ import {gql, useMutation} from '@apollo/client';
 //Style
 import '../Style.css';
 
+//Require Bcrypt
+const bcrypt = require('bcryptjs');
 
 //Register query
 const REGISTER_QUERY = gql`
-	mutation UserRegister($typedEmail: String!, $typedUser: String!, $typedPwd: String!) {
-        addUser(user: $typedUser, email: $typedEmail, password: $typedPwd) {
+	mutation UserRegister($typedUser: String!, $typedEmail: String!, $passwordSalt: String!, $salt: String!) {
+        addUser(user: $typedUser, email: $typedEmail, password: $passwordSalt, salt: $salt) {
             msgInfo
         }
     }
@@ -50,8 +52,12 @@ const Register = props => {
             return false;
         }
 
+        //Password crypt
+        const salt = bcrypt.genSaltSync()
+        const passwordSalt = bcrypt.hashSync(typedPwd, salt)
+
         //Lazy request the query
-        register[0]({variables: {typedEmail, typedUser, typedPwd}});
+        register[0]({variables: {typedUser, typedEmail, passwordSalt, salt}});
 
         //Prevent page change
         return false;
