@@ -26,7 +26,7 @@ const MemeSelectBest = props => {
     } = props;
 
     //Query
-    const bestMeme = useLazyQuery(M_BESTMEME_QUERY, {fetchPolicy: "network-only"});
+    const bestMeme = useLazyQuery(M_BESTMEME_QUERY, {fetchPolicy: "network-only", onCompleted: (data) => bestMemeCheck(data.selectAsBestMeme)});
 
 
     //Hooks
@@ -50,15 +50,17 @@ const MemeSelectBest = props => {
 
 
     //Check query result
-    useEffect(() => {
-        if (bestMeme[1].data)
-            if(bestMeme[1].data.selectAsBestMeme.msgInfo !== "SUCCESS")
-                alert(bestMeme[1].data.selectAsBestMeme.msgInfo);
-            else if (remElem)
-                if (!memeBest)
-                    remElem({type: 1, id: memeID});
-        // eslint-disable-next-line
-    }, [bestMeme])
+    const bestMemeCheck = (queryResult) => {
+        if(queryResult.msgInfo !== "SUCCESS")
+            alert(queryResult.msgInfo);
+        else {
+            setMemeBest(memeBest);
+            //As setMemeBest will not have finished on time, check when it's true (will be setted to false)
+            if (memeBest) {
+                remElem({type: 1, id: memeID});
+            }
+        }
+    }
 
 
     //Return
@@ -70,7 +72,6 @@ const MemeSelectBest = props => {
             onClick={() => {
                 if (localStorage.getItem("userAdmin") === "true") {
                     selectBestCall();
-                    setMemeBest(!memeBest);
                 }
             }}
         />

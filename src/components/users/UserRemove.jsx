@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {gql, useMutation} from '@apollo/client';
 
 //Style
@@ -25,30 +25,33 @@ const UserRemove = props => {
         remElem,
     } = props;
 
+    
     //Query
-    const removeUser = useMutation(U_REMOVE_QUERY);
+    const removeUser = useMutation(U_REMOVE_QUERY, {onCompleted: (data) => userRemovedCheck(data.removeUser)});
+
 
     //Call
     const removeUserCall = () => {
+        //Get admin tokens
         const adminID = localStorage.getItem("userID");
         const adminToken = localStorage.getItem("userToken");
+
+        //Remove the user
         removeUser[0]({variables: {userID, adminID, adminToken}});
     };
 
-    //Check query result
-    useEffect(() => {
-        if (removeUser[1].data) {
-            if(removeUser[1].data.removeUser.msgInfo !== "SUCCESS")
-                alert(removeUser[1].data.removeUser.msgInfo);
-            else if (remElem) {
-                if (memeID)
-                    remElem({type: 2, id: userID});
-                else
-                    remElem(userID);
-            }
+
+    //Query check for the Removed User 
+    const userRemovedCheck = (queryResult) => {
+        if(queryResult.msgInfo !== "SUCCESS")
+            alert(queryResult.msgInfo);
+        else {
+            if (memeID)
+                remElem({type: 2, id: userID});
+            else
+                remElem(userID);
         }
-        // eslint-disable-next-line
-    }, [removeUser])
+    }
 
 
     //Return

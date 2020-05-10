@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {gql, useLazyQuery} from '@apollo/client';
 
 //Style
@@ -7,7 +7,6 @@ import '../Style.css';
 
 //Require Bcrypt
 const bcrypt = require('bcryptjs');
-
 
 
 //Login query
