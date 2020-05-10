@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {gql, useMutation} from '@apollo/client';
 
 //Style
@@ -26,7 +26,7 @@ const Register = props => {
 
 
     //Queries
-    const register = useMutation(REGISTER_QUERY);
+    const register = useMutation(REGISTER_QUERY, {onCompleted: (data) => registerCheck(data.addUser)});
 
 
     //Hooks for managing the state of the typed text
@@ -50,6 +50,9 @@ const Register = props => {
         } else if (!regexToTest.test(typedEmail)){
             alert("ERROR - Invalid Email.");
             return false;
+        } else if (typedPwd.length < 8) {
+            alert("ERROR - Password should be of at least 8 characters.");
+            return false;
         }
 
         //Password crypt
@@ -62,22 +65,17 @@ const Register = props => {
         //Prevent page change
         return false;
     }
-
+    
     
     //Detect the change of the Register when is requested
-    useEffect(() => {
-        if (!register[1].loading && register[1].called) {
-            if (register[1].data) {
-                if (register[1].data.addUser.msgInfo !== "SUCCESS")
-                    alert(register[1].data.addUser.msgInfo);
-                else {
-                    //Refresh window
-                    window.location.reload(false);
-                }
-            }
+    const registerCheck = (queryResult) => {
+        if (queryResult.msgInfo !== "SUCCESS")
+            alert(queryResult.msgInfo);
+        else {
+            //Refresh window
+            window.location.reload(false);
         }
-        // eslint-disable-next-line
-    }, [register])
+    }
 
 
     //Return

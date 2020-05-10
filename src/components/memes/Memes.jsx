@@ -26,6 +26,7 @@ const Meme = props => {
 
     //Run on Component mount
     useEffect(() => {
+        //Format the date
         const dateFormat = new Date(Number(date));
         const dateFormated = 
             dateFormat.getFullYear() + "/" +

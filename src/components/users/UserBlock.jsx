@@ -26,7 +26,7 @@ const UserBlock = props => {
     } = props;
 
     //Query
-    const blockUser = useLazyQuery(U_BLOCK_QUERY, {fetchPolicy: "network-only"});
+    const blockUser = useLazyQuery(U_BLOCK_QUERY, {fetchPolicy: "network-only", onCompleted: (data) => blockedUserCheck(data.blockUser)});
 
 
     //Hooks
@@ -48,20 +48,18 @@ const UserBlock = props => {
         blockUser[0]({variables: {userID, adminID, adminToken}});
     };
 
-    //Check query result
-    useEffect(() => {
-        if (blockUser[1].data) {
-            if(blockUser[1].data.blockUser.msgInfo !== "SUCCESS")
-                alert(blockUser[1].data.blockUser.msgInfo);
-            else {
-                if (remElem)
-                    remElem(userID);
-                setUserBlocked(!userBlocked);
-            }
-        }
-        // eslint-disable-next-line
-    }, [blockUser])
 
+    //Query for the Blocked User done
+    const blockedUserCheck = (queryResult) => {
+        if(queryResult.msgInfo !== "SUCCESS")
+            alert(queryResult.msgInfo);
+        else {
+            if (remElem)
+                remElem(userID);
+            setUserBlocked(!userBlocked);
+        }
+    }
+    
     
     //Return
     return (

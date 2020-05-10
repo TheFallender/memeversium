@@ -102,10 +102,10 @@ const M_USER_QUERY = gql`
 //Meme List
 const MemeList = props => {
     //Queries
-    const listMemes = useLazyQuery(M_LIST_QUERY, {fetchPolicy: "network-only"});
-    const listBest = useLazyQuery(M_BEST_QUERY, {fetchPolicy: "network-only"});
-    const listLast = useLazyQuery(M_LAST_QUERY, {fetchPolicy: "network-only"});
-    const listUserMemes = useLazyQuery(M_USER_QUERY, {fetchPolicy: "network-only"});
+    const listMemes = useLazyQuery(M_LIST_QUERY, {fetchPolicy: "network-only", onCompleted: (data) => updateMemeList(data.memeList)});
+    const listBest = useLazyQuery(M_BEST_QUERY, {fetchPolicy: "network-only", onCompleted: (data) => updateMemeList(data.bestMemesList)});
+    const listLast = useLazyQuery(M_LAST_QUERY, {fetchPolicy: "network-only", onCompleted: (data) => updateMemeList(data.lastMemesList)});
+    const listUserMemes = useLazyQuery(M_USER_QUERY, {fetchPolicy: "network-only", onCompleted: (data) => updateMemeList(data.userMemes)});
 
 
     //Hooks
@@ -122,56 +122,28 @@ const MemeList = props => {
 
 
     //Update when they are changed
-    useEffect(() => {
-        let memesJSX = null;
-
-        switch(memeListType) {
-            //Meme list
-            case 0:
-                if (listMemes[1].data)
-                    memesJSX = listMemes[1].data.memeList.meme;
-                break;
-            //Best memes
-            case 1:
-                if (listBest[1].data)
-                    memesJSX = listBest[1].data.bestMemesList.meme;
-                break;
-            //Last memes
-            case 2:
-                if (listLast[1].data)
-                    memesJSX = listLast[1].data.lastMemesList.meme;
-                break;
-            //User memes
-            case 3:
-                if (listUserMemes[1].data)
-                    if(listUserMemes[1].data.userMemes.msgInfo !== "SUCCESS")
-                        alert(listUserMemes[1].data.userMemes.msgInfo);
-                    else
-                        memesJSX = listUserMemes[1].data.userMemes.meme;
-                break;
-            default:
-                setMemes(null);
-        }
-
-        //Only if it has data
-        if (memesJSX) {
+    const updateMemeList = (queryResult) => {
+        //Check that the query was successfull
+        if(queryResult.msgInfo !== "SUCCESS")
+            alert(queryResult.msgInfo);
+        else {
             let userIsAdmin = localStorage.getItem("userAdmin");
-            memesJSX = memesJSX.map((element) => (
-                <Meme
-                    key={element._id}
-                    data={element}
-                    isAdmin={userIsAdmin}
-                    remElem={setMemeUpdated}
-                    userMemes={userMemesCall}
-                />
-            ));
-            setMemes(memesJSX);
+            setMemes(
+                queryResult.meme.map((element) => (
+                    <Meme
+                        key={element._id}
+                        data={element}
+                        isAdmin={userIsAdmin}
+                        remElem={setMemeUpdated}
+                        userMemes={userMemesCall}
+                    />
+                ))
+            )
         }
-        // eslint-disable-next-line
-    }, [listMemes, listBest, listLast, listUserMemes]);
+    }
 
 
-    //Remove meme check
+    //Remove meme when requested
     useEffect(() => {
         if (memeUpdated) {
             //Meme Deleted

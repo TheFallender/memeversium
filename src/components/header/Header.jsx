@@ -21,6 +21,7 @@ const Header = props => {
     //Hook for showing the background when needed
     const [popUp, setPopUp] = useState(null);
 
+    
     //Show popUp with background
     let popUpJSX = null;
     if (popUp)
@@ -29,6 +30,7 @@ const Header = props => {
                 <div className="PopUpBackground" onClick={() => setPopUp(null)}/>
                 {popUp}
             </div>;
+
 
     //Logged or not menu
     let logMenuJSX =

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {gql, useMutation} from '@apollo/client';
 
 //Style
@@ -26,8 +26,9 @@ const MemeRemove = props => {
         remElem,
     } = props;
 
+
     //Query
-    const removeMeme = useMutation(M_REMOVE_QUERY);
+    const removeMeme = useMutation(M_REMOVE_QUERY, {onCompleted: (data) => memeRemoveCheck(data.removeMeme)});
 
 
     //Call
@@ -39,16 +40,11 @@ const MemeRemove = props => {
 
 
     //Check query result
-    useEffect(() => {
-        if (removeMeme[1].data) {
-            if(removeMeme[1].data.removeMeme.msgInfo !== "SUCCESS")
-                alert(removeMeme[1].data.removeMeme.msgInfo);
-            else if (remElem) {
-                remElem({type: 0, id: memeID});
-            }
-        }
-        // eslint-disable-next-line
-    }, [removeMeme])
+    const memeRemoveCheck = (queryResult) => {
+        if(queryResult.msgInfo !== "SUCCESS")
+            alert(queryResult.msgInfo);
+        remElem({type: 0, id: memeID});
+    }
 
 
     //Return

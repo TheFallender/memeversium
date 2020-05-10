@@ -192,7 +192,15 @@
 
 @media screen and (min-width: 800px) {
     .MemeList {
-        width: 70%;
+        width: 60%;
+        margin: 0 auto;
+        box-sizing: border-box;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .MemeList {
+        width: 55%;
         margin: 0 auto;
         box-sizing: border-box;
     }
@@ -208,7 +216,7 @@
 
 @media screen and (min-width: 1920px) {
     .MemeList {
-        width: 33%;
+        width: 40%;
         margin: 0 auto;
         box-sizing: border-box;
     }
