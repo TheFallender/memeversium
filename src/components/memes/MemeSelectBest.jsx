@@ -54,7 +54,7 @@ const MemeSelectBest = props => {
         if(queryResult.msgInfo !== "SUCCESS")
             alert(queryResult.msgInfo);
         else {
-            setMemeBest(memeBest);
+            setMemeBest(!memeBest);
             //As setMemeBest will not have finished on time, check when it's true (will be setted to false)
             if (memeBest) {
                 remElem({type: 1, id: memeID});
