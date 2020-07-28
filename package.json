@@ -23,7 +23,7 @@
     "bcryptjs": "^2.4.3",
     "gh-pages": "^2.2.0",
     "graphql": "^15.0.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1"
