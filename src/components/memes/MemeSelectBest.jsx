@@ -26,7 +26,11 @@ const MemeSelectBest = props => {
     } = props;
 
     //Query
-    const bestMeme = useLazyQuery(M_BESTMEME_QUERY, {fetchPolicy: "network-only", onCompleted: (data) => bestMemeCheck(data.selectAsBestMeme)});
+    //Toogle best meme
+    const bestMeme = useLazyQuery(M_BESTMEME_QUERY, {
+        fetchPolicy: "network-only",
+        onCompleted: (data) => bestMemeCheck(data.selectAsBestMeme)
+    });
 
 
     //Hooks
