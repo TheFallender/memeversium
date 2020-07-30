@@ -102,10 +102,26 @@ const M_USER_QUERY = gql`
 //Meme List
 const MemeList = props => {
     //Queries
-    const listMemes = useLazyQuery(M_LIST_QUERY, {fetchPolicy: "network-only", onCompleted: (data) => updateMemeList(data.memeList)});
-    const listBest = useLazyQuery(M_BEST_QUERY, {fetchPolicy: "network-only", onCompleted: (data) => updateMemeList(data.bestMemesList)});
-    const listLast = useLazyQuery(M_LAST_QUERY, {fetchPolicy: "network-only", onCompleted: (data) => updateMemeList(data.lastMemesList)});
-    const listUserMemes = useLazyQuery(M_USER_QUERY, {fetchPolicy: "network-only", onCompleted: (data) => updateMemeList(data.userMemes)});
+    //Base memes list
+    const listMemes = useLazyQuery(M_LIST_QUERY, {
+        fetchPolicy: "network-only",
+        onCompleted: (data) => updateMemeList(data.memeList)
+    });
+    //Best memes list
+    const listBest = useLazyQuery(M_BEST_QUERY, {
+        fetchPolicy: "network-only",
+        onCompleted: (data) => updateMemeList(data.bestMemesList)
+    });
+    //Last memes list
+    const listLast = useLazyQuery(M_LAST_QUERY, {
+        fetchPolicy: "network-only",
+        onCompleted: (data) => updateMemeList(data.lastMemesList)
+    });
+    //User list memes
+    const listUserMemes = useLazyQuery(M_USER_QUERY, {
+        fetchPolicy: "network-only",
+        onCompleted: (data) => updateMemeList(data.userMemes)
+    });
 
 
     //Hooks
@@ -124,6 +140,7 @@ const MemeList = props => {
     //Update when they are changed
     const updateMemeList = (queryResult) => {
         //Check that the query was successfull
+        console.log("CALLED")
         if(queryResult.msgInfo !== "SUCCESS")
             alert(queryResult.msgInfo);
         else {

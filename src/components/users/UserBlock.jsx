@@ -26,7 +26,11 @@ const UserBlock = props => {
     } = props;
 
     //Query
-    const blockUser = useLazyQuery(U_BLOCK_QUERY, {fetchPolicy: "network-only", onCompleted: (data) => blockedUserCheck(data.blockUser)});
+    //Toogle blocked user
+    const blockUser = useLazyQuery(U_BLOCK_QUERY, {
+        fetchPolicy: "network-only",
+        onCompleted: (data) => blockedUserCheck(data.blockUser)
+    });
 
 
     //Hooks

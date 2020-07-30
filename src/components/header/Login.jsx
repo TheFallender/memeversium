@@ -45,8 +45,16 @@ const Login = props => {
 
 
     //Queries
-    const login = useLazyQuery(LOGIN_QUERY,  {fetchPolicy: "network-only", onCompleted: (data) => loginCheck(data.userLogin)});
-    const saltGet = useLazyQuery(SALT_QUERY,  {fetchPolicy: "network-only", onCompleted: (data) => sendLogin(data.getSalt)});
+    //Login
+    const login = useLazyQuery(LOGIN_QUERY,  {
+        fetchPolicy: "network-only",
+        onCompleted: (data) => loginCheck(data.userLogin)
+    });
+    //Get salt
+    const saltGet = useLazyQuery(SALT_QUERY,  {
+        fetchPolicy: "network-only",
+        onCompleted: (data) => sendLogin(data.getSalt)
+    });
 
 
     //Hooks for managing the state of the typed text
