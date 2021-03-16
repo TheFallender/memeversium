@@ -14,3 +14,5 @@ To run locally:
 
 Memeversium backend: https://github.com/TheFallender/memeversium_back
 Memeversium: https://thefallender.github.io/memeversium
+
+Frontend public, don't try to use the passwords/users/urls on the previous commits, they won't work.
